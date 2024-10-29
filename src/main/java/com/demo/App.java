@@ -13,6 +13,6 @@ public class App
     {
         MovieDao md=new MovieDao();
         
-        System.out.println(md.displayAllMovies());
+        System.out.println(md.searchMovieByName(4));
     }
 }

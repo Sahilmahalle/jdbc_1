@@ -157,4 +157,45 @@ public class MovieDao {
 		
 		return result;
 	}
+	public Movie searchMovieByName(int id) {
+		
+		Connection con=null;
+		PreparedStatement pst=null;
+		ResultSet rs=null;
+		Movie m=null;
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/jap69","root","root");
+			String sql="select * from movies where id=?";
+			pst=con.prepareStatement(sql);
+			
+			pst.setInt(1, id);
+			rs=pst.executeQuery();
+			
+			while(rs.next()) {
+				m=new Movie();
+				m.setGenre(rs.getString("genre"));
+				m.setTitle(rs.getString("title"));
+				m.setYearOfRelease(rs.getInt("yearOfRelease"));
+				m.setId(rs.getInt("id"));
+			}
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			try {
+				rs.close();
+				pst.close();
+				con.close();
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return m;
+	}
 }
